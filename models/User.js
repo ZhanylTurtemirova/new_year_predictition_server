@@ -6,7 +6,7 @@ const schema = new Schema({
   },
   isGift: {
     type: Boolean,
-    required: true,
+    required: false,
   },
 });
 module.exports = model("User", schema);

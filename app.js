@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/wishes", require("./routes/wishes.routes"));
 app.use("/api/mail", require("./routes/mail.routes"));
+app.use("/api/users", require("./routes/user.routes"));
 
 async function start() {
   try {
