@@ -12,16 +12,19 @@ router.get("/", async (req, res) => {
 });
 
 router.patch("/:id", async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["count"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-  if (!isValidOperation) {
-    return res.status(400).send("Invalid updates!");
-  }
+  // const updates = Object.keys(req.body);
+  // const allowedUpdates = ["count"];
+  // const isValidOperation = updates.every((update) =>
+  //   allowedUpdates.includes(update)
+  // );
+
+  // if (!isValidOperation) {
+  //   return res.status(400).send("Invalid updates!");
+  // }
   try {
-    const wish = await Wish.findByIdAndUpdate(req.params.id, req.body);
+    const wish = await Wish.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!wish) {
       return res.status(404).send();
     }
