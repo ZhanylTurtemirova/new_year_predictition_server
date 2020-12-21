@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
   const { text } = req.body;
   const mailData = {
     from: `${moderator}`,
-    to: `${moderator}`,
+    to: `gaukhar_ni@epam.com, anna_voronova@epam.com, zhanyl_turtemirova@epam.com`,
     subject: "new year randomizer",
     text: text,
   };
