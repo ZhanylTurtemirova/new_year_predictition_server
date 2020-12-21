@@ -1,6 +1,7 @@
 # Don't track content of these folders
 node_modules/
 config/
+**client/node_modules/
 
 
 # Compiled source #
