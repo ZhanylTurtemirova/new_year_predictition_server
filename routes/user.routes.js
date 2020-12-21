@@ -5,7 +5,6 @@ const router = Router();
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
-    console.log(">>>>>", name);
     if (name.length < 2) {
       return res.status(400).json({
         message: "Неверные данные",
@@ -19,8 +18,6 @@ router.post("/", async (req, res) => {
     await user.save();
     res.status(201).json({ message: "Пользователь создался" });
   } catch (e) {
-    console.log("errror>>>>>", e);
-
     res.status(500).json({ message: "Ошибка сервера" });
   }
 });

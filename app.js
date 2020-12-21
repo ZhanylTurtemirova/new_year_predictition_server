@@ -1,10 +1,11 @@
 const express = require("express");
-const config = require("config");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = config.get("port") || 5000;
+const PORT = process.env.PORT || 5000;
+const MONGOURI = process.env.MONGOURI;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,7 +15,7 @@ app.use("/api/users", require("./routes/user.routes"));
 
 async function start() {
   try {
-    await mongoose.connect(config.get("mongoUri"), {
+    await mongoose.connect(MONGOURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

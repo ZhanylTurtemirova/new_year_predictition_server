@@ -1,11 +1,9 @@
 const { Router } = require("express");
-const config = require("config");
 const nodemailer = require("nodemailer");
 
 const router = Router();
-const moderator = config.get("email");
-const pass = config.get("password");
-
+const moderator = process.env.EMAIL;
+const pass = process.env.PASSWORD;
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
   port: 465, // true for 465, false for other ports
