@@ -10,6 +10,9 @@ const MONGOURI = process.env.MONGOURI;
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/build")));
+  app.get("/api/mail", (req, res) => {
+    res.sendfile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 app.use(bodyParser.json());
@@ -29,7 +32,7 @@ async function start() {
       useCreateIndex: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`app has been started on PORT ${PORT}`);
     });
   } catch (e) {

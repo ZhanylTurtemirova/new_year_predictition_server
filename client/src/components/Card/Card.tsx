@@ -54,9 +54,9 @@ const Card: React.FC<CardProp> = ({
       .then((res) => {
         console.log("user set");
         handleRandomElement(wish);
-        if (wish.isGift) {
-          sendMail(employee, wish);
-        }
+        // if (wish.isGift) {
+        sendMail(employee, wish);
+        // }
         const newCount = wish.count ? --wish.count : 0;
         Api.changeWish({ id: wish._id, count: newCount });
       })
