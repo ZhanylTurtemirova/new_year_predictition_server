@@ -4,9 +4,13 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  text: {
+    type: String,
+    required: true,
+  },
   isGift: {
     type: Boolean,
-    required: false,
+    required: true,
   },
 });
 module.exports = model("User", schema);

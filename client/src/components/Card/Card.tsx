@@ -22,13 +22,11 @@ const Card: React.FC<CardProp> = ({
   changeWishes,
 }) => {
   const [employee, setEmployee] = useState<string>("");
-  const [randomElement, setRandomElement] = useState<Wish>();
 
   useEffect((): void => {
     clearUsers();
     Api.getWishes()
       .then((res) => {
-        // setWishesArray(res.data);
         setWishes(res.data);
       })
       .catch((err) => {
@@ -44,43 +42,38 @@ const Card: React.FC<CardProp> = ({
       count: 1,
     },
   ];
-  const checkUser = () => {
-    try {
-      Api.setUser({ name: employee })
-        .then((res) => {
-          console.log("user set");
-        })
-        .catch((e) => {
-          return false;
-        });
-      return true;
-    } catch (e) {
-      return false;
-    }
+  const checkUser = (wish: Wish): any => {
+    let isExist = true;
+    Api.setUser({ name: employee, text: wish.text, isGift: wish.isGift })
+      .then((res) => {
+        console.log("user set");
+      })
+      .catch((e) => {
+        isExist = false;
+      });
+    return isExist;
   };
 
   const generateResult = (e: any) => {
     setEmployee("");
     const wishesAndGifts = wishes.filter(
       (item) => item.count && item.count > 0
-    );
-    const wishesOnly =
-      wishes.filter((item) => !item.isGift && item.count && item.count > 0) ||
-      wishElement;
-    if (checkUser()) {
-      const newWishes = wishesAndGifts || wishesOnly;
-      const wish = newWishes[Math.floor(Math.random() * newWishes.length)];
-      setRandomElement(wish);
+    ) || [wishElement];
+    const wish =
+      wishesAndGifts[Math.floor(Math.random() * wishesAndGifts.length)];
+    if (checkUser(wish)) {
       handleRandomElement(wish);
-      if (wish?.isGift && wish.count) {
+      if (wish.isGift) {
         sendMail(employee, wish);
       }
       const newCount = wish.count ? --wish.count : 0;
       Api.changeWish({ id: wish._id, count: newCount });
     } else {
-      const wish = wishesOnly[Math.floor(Math.random() * wishesOnly.length)];
-      const newCount = wish.count ? --wish.count : 0;
-      Api.changeWish({ id: wish._id, count: newCount });
+      const wish = {
+        _id: "test",
+        text: "Спасибо за участие.",
+        isGift: false,
+      };
       handleRandomElement(wish);
     }
     e.preventDefault();
