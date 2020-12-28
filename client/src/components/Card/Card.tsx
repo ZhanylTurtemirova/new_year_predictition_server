@@ -42,17 +42,6 @@ const Card: React.FC<CardProp> = ({
       count: 1,
     },
   ];
-  const checkUser = (wish: Wish): any => {
-    let isExist = true;
-    Api.setUser({ name: employee, text: wish.text, isGift: wish.isGift })
-      .then((res) => {
-        console.log("user set");
-      })
-      .catch((e) => {
-        isExist = false;
-      });
-    return isExist;
-  };
 
   const generateResult = (e: any) => {
     setEmployee("");
@@ -61,21 +50,24 @@ const Card: React.FC<CardProp> = ({
     ) || [wishElement];
     const wish =
       wishesAndGifts[Math.floor(Math.random() * wishesAndGifts.length)];
-    if (checkUser(wish)) {
-      handleRandomElement(wish);
-      if (wish.isGift) {
-        sendMail(employee, wish);
-      }
-      const newCount = wish.count ? --wish.count : 0;
-      Api.changeWish({ id: wish._id, count: newCount });
-    } else {
-      const wish = {
-        _id: "test",
-        text: "Спасибо за участие.",
-        isGift: false,
-      };
-      handleRandomElement(wish);
-    }
+    Api.setUser({ name: employee, text: wish.text, isGift: wish.isGift })
+      .then((res) => {
+        console.log("user set");
+        handleRandomElement(wish);
+        if (wish.isGift) {
+          sendMail(employee, wish);
+        }
+        const newCount = wish.count ? --wish.count : 0;
+        Api.changeWish({ id: wish._id, count: newCount });
+      })
+      .catch((e) => {
+        const wish = {
+          _id: "test",
+          text: "Спасибо за участие.",
+          isGift: false,
+        };
+        handleRandomElement(wish);
+      });
     e.preventDefault();
   };
 
