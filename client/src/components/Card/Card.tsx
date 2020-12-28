@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Wish } from "../../core/models/Wish";
-import { User } from "../../core/models/User";
 import styles from "./Card.module.scss";
 import { clearUsers } from "../../redux/actions/users.action";
 import { setWishes, changeWishes } from "../../redux/actions/wishes.action";
@@ -36,10 +35,15 @@ const Card: React.FC<CardProp> = ({
         console.log(err);
       });
   }, [clearUsers, setWishes, changeWishes]);
-  const wishElement = [{ "_id": "5fe1a62b4aa8b5f75f3b41b5",
-    "text": "Не каждый может быть твоим другом, но каждый может быть твоим учителем.",
-    "isGift": false,
-    "count": 1}];
+  const wishElement = [
+    {
+      _id: "5fe1a62b4aa8b5f75f3b41b5",
+      text:
+        "Не каждый может быть твоим другом, но каждый может быть твоим учителем.",
+      isGift: false,
+      count: 1,
+    },
+  ];
   const checkUser = () => {
     try {
       Api.setUser({ name: employee }).then((res) => {
@@ -57,7 +61,8 @@ const Card: React.FC<CardProp> = ({
       (item) => item.count && item.count > 0
     );
     const wishesOnly =
-      wishes.filter((item) => !item.isGift && item.count && item.count > 0) || wishElement;
+      wishes.filter((item) => !item.isGift && item.count && item.count > 0) ||
+      wishElement;
     if (checkUser()) {
       const newWishes = wishesAndGifts || wishesOnly;
       const wish = newWishes[Math.floor(Math.random() * newWishes.length)];
