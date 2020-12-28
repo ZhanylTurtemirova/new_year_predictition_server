@@ -46,9 +46,13 @@ const Card: React.FC<CardProp> = ({
   ];
   const checkUser = () => {
     try {
-      Api.setUser({ name: employee }).then((res) => {
-        console.log("user set");
-      });
+      Api.setUser({ name: employee })
+        .then((res) => {
+          console.log("user set");
+        })
+        .catch((e) => {
+          return false;
+        });
       return true;
     } catch (e) {
       return false;
